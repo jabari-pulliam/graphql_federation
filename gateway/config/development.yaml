@@ -1,0 +1,17 @@
+Server:
+  port: 8080
+
+Logging:
+  name: gateway
+  level: debug
+
+Gateway:
+  debug: true
+  reloadInterval: 60
+  services:
+    - name: widgets
+      url: http://widgets:8080/query
+    - name: prices
+      url: http://prices:8080/query
+    - name: inventory
+      url: http://inventory:8080/query

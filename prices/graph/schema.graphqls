@@ -1,0 +1,36 @@
+# Price Service
+#
+
+type PageInfo {
+  totalCount: Int!
+}
+
+type WidgetPage {
+  items: [Widget!]!
+  pageInfo: PageInfo!
+}
+
+extend type WidgetSource @key(fields: "ids") {
+  ids: [Int!]! @external
+  widgetsByPrice(filter: PriceFilter!): PriceWidgetSource! @requires(fields: "ids")
+}
+
+extend type InventoryWidgetSource @key(fields: "ids") {
+  ids: [Int!]! @external
+  widgetsByPrice(filter: PriceFilter!): PriceWidgetSource! @requires(fields: "ids")
+}
+
+input PriceFilter {
+  minPrice: Int
+  maxPrice: Int
+}
+
+type PriceWidgetSource @key(fields: "ids") {
+  ids: [Int!]!
+  widgets: WidgetPage!
+}
+
+extend type Widget @key(fields: "id") {
+  id: Int! @external
+  price: Int!
+}

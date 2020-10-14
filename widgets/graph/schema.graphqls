@@ -1,0 +1,43 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type PageInfo {
+  totalCount: Int!
+}
+
+type WidgetPage {
+  items: [Widget!]!
+  pageInfo: PageInfo!
+}
+
+enum WidgetColor {
+  RED
+  GREEN
+  BLUE
+  ORANGE
+  BLACK
+}
+
+type Widget @key(fields: "id") {
+  id: Int!
+  size: Int!
+  color: WidgetColor!
+}
+
+type WidgetSource @key(fields: "ids") {
+  ids: [Int!]!
+  widgets: WidgetPage!
+}
+
+input WidgetFilter {
+  colors: [WidgetColor!]
+  minSize: Int
+  maxSize: Int
+}
+
+type Query {
+  widgets(filter: WidgetFilter): WidgetSource!
+}
+
+

@@ -1,0 +1,35 @@
+# Inventory Service
+#
+
+type PageInfo {
+  totalCount: Int!
+}
+
+type WidgetPage {
+  items: [Widget!]!
+  pageInfo: PageInfo!
+}
+
+extend type Widget @key(fields: "id") {
+  id: Int! @external
+  inventory: Int!
+}
+
+type InventoryWidgetSource {
+  ids: [Int!]!
+  widgets: WidgetPage!
+}
+
+extend type WidgetSource @key(fields: "ids") {
+  ids: [Int!]! @external
+  widgetsByInventory(filter: InventoryFilter!): InventoryWidgetSource!
+}
+
+extend type PriceWidgetSource @key(fields: "ids") {
+  ids: [Int!]! @external
+  widgetsByInventory(filter: InventoryFilter!): InventoryWidgetSource!
+}
+
+input InventoryFilter {
+  minInventory: Int!
+}

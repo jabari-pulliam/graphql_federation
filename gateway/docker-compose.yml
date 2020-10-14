@@ -1,0 +1,43 @@
+version: "3.7"
+
+services:
+  gateway:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - widgets
+      - prices
+      - inventory
+
+  widgets:
+    build:
+      context: ../widgets/
+    depends_on:
+      - db
+
+  prices:
+    build:
+      context: ../prices/
+    depends_on:
+      - db
+
+  inventory:
+    build:
+      context: ../inventory/
+    depends_on:
+      - db
+
+  db:
+    image: postgres:11.7
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=testtest
+      - POSTGRES_DB=widgets
+    volumes:
+      - ./bin/pgdata:/var/lib/postgresql/data
+      - ./pg_scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"

@@ -1,0 +1,3 @@
+# Project exclude paths
+/gateway/node_modules/
+**/bin
